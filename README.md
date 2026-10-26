@@ -1,21 +1,65 @@
-# Plant Loft conversational commerce example
+# Plant Loft 🌿
+## Less back-and-forth. More room to grow.
 
-Code for a plant consultation, purchase and event-rental assistant built with Chord, Supabase and a Google Sheet. Includes authored skills, four narrow HTTP tools, server-side pricing, test-payment verification, owner actions and tests.
+An AI sales and event-rental assistant for **Rahama’s Plant Loft**, built to turn a useful conversation into an actionable order.
 
-## Public snapshot
+Small businesses often sell through chat. That makes every unanswered message a potential lost sale—and every repeated consultation another task for an already busy owner. Plant Loft brings product advice, pricing, payments and fulfilment into one conversation, with a simple owner dashboard for the decisions that still need a person.
 
-This repository contains code and synthetic catalogue fixtures only. It intentionally excludes recruitment instructions, submission documents, correspondence, recordings, operational histories, private recovery tokens, deployment identifiers and supplied product photos. Its history begins with this cleaned snapshot. The shop-policy examples are fictional and require business-owner approval before real use. Nothing here grants access to the running workspace or database.
+## A real business problem
 
-## Configure your own deployment
+I interviewed the owner to understand her workflow. Long consultations did not always turn into sales, staff departures left nobody available to answer potential customers, and Instagram enquiries could wait too long for a reply.
 
-Replace YOUR_PROJECT_REF and YOUR_CHORD_TEAMMATE_ID in the templates with your own deployment values. Use separate private agent/owner keys and Paystack test credentials in server secrets; never put them in the skill or repository. Apply migration 001, seed.sql, then migrations 002–014 in order. Supply your own appropriately licensed product images under the configured Storage paths. Deploy the Edge Function, import openapi.json into Chord, configure the private auth header and publish the three skills. The optional Sheet uses its own owner key in Script Properties.
+The assistant handles repeat questions and gathers the details needed to move an order forward. It runs on Chord’s WhatsApp simulator; Instagram is not integrated. Time saved and conversion improvements have not yet been measured.
 
-Run: node --test supabase/functions/plant-loft/workflow.test.mjs integrations/google-sheets/script.test.mjs
+## What it does
 
-## Limits
+- **Plant consultations:** find plants by name, budget and conditions; share product-photo links, care information and safety guidance.
+- **Purchases:** collect explicit quantities, pots and pickup/delivery preferences, then save a priced request.
+- **Event rentals:** combine Golden and Lady Palms for volume pricing, calculate started 24-hour periods and add optional setup.
+- **Payments:** offer Paystack test checkout and a separate owner-verified bank-transfer route. A customer saying “I’ve paid” never establishes payment.
+- **Owner operations:** use Google Sheets to quote delivery fees, confirm bank receipts, record delivery/collection and review customer issues.
+- **Aftercare and feedback:** provide purchased-plant care guidance and capture product/service ratings, with low scores routed for follow-up.
 
-Synthetic stock is not a concurrent reservation system. Channel identity is a prototype workaround. Automatic customer messaging, live WhatsApp deployment, refunds, payment webhooks and real operations are not configured. Public code is not a claim of production readiness.
+## How it works
+
+| Component | Responsibility |
+|---|---|
+| Chord + three authored skills | Conversation, business context and workflow guidance |
+| Four HTTP tools | Catalogue search, quote preparation, request confirmation and request lookup/actions |
+| Supabase Edge Function + PostgreSQL | Validate inputs, calculate prices, persist orders and enforce lifecycle rules |
+| Supabase Storage | Time-limited product-photo links |
+| Paystack | Test checkout and provider payment verification |
+| Google Sheets + Apps Script | Owner controls and sales-funnel visibility |
+
+The model conducts the conversation; the backend owns money and order state. Prices use integer kobo. Accepted delivery fees are versioned, retries recover existing requests, and owner actions use a separate private key. A rental is not complete merely because the customer reports a return: the owner must record collection.
+
+## Run your own deployment
+
+1. Create a dedicated Supabase project and Chord workspace. Install Node.js and the Supabase CLI.
+2. Apply migration 001, then `supabase/seed.sql`, then migrations 002–014 in filename order.
+3. Replace `YOUR_PROJECT_REF` and `YOUR_CHORD_TEAMMATE_ID` in the templates.
+4. Supply your own licensed product images in the private Storage bucket `plant-loft-images`, using the catalogue paths.
+5. Set separate server-only agent/owner keys, Supabase service credentials and Paystack **test** credentials. Never commit them.
+6. Deploy the `plant-loft` Edge Function, import `openapi.json` into Chord and configure each tool’s private authentication header.
+7. Publish the three files in `skills/` and assign them to the teammate.
+8. Optionally install `integrations/google-sheets/Code.gs`; put the owner key in Script Properties, authorize the script and run `setupDashboard`.
+
+Run the local adapter and Sheet checks:
+
+```sh
+node --test supabase/functions/plant-loft/workflow.test.mjs integrations/google-sheets/script.test.mjs
+```
 
 ## Policy source of truth
 
-`skills/customer-service.md` is the authoritative policy text read by the teammate. `knowledge/shop-policies.md` is a reference copy of its fictional sample terms. Edit the skill first, update that reference in the same change, and republish the skill before testing. The samples require owner approval or replacement before launch.
+`skills/customer-service.md` is the authoritative policy text read by the teammate. `knowledge/shop-policies.md` is its reference copy. Edit the skill first, update the reference in the same change and republish before testing.
+
+Catalogue prices and sample shop policies are fictional. Replace pickup details, hours, delivery coverage, lead times, arrival-damage terms and aftercare promises with owner-approved terms before serving customers.
+
+## Current boundaries
+
+This is a working prototype using synthetic data and test payments. Stock checks are snapshots, not concurrent reservations. Payment verification runs on request; webhooks and automatic customer notifications are not implemented. Photos open as links. Live WhatsApp deployment, production customer identity, automatic refunds and operational alerting remain future work.
+
+The repository includes the skills, tool contracts, backend, migrations, synthetic catalogue fixtures, Sheet script and tests. It excludes credentials, deployment identifiers, private order histories and product photos. Bring your own configuration and licensed assets.
+
+Built by [Onu Abah](https://onubrooks.github.io) · Financial data engineering, backend systems and applied AI.
