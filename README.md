@@ -38,7 +38,7 @@ The model conducts the conversation; the backend owns money and order state. Pri
 1. Create a dedicated Supabase project and Chord workspace. Install Node.js and the Supabase CLI.
 2. Apply migration 001, then `supabase/seed.sql`, then migrations 002–014 in filename order.
 3. Replace `YOUR_PROJECT_REF` and `YOUR_CHORD_TEAMMATE_ID` in the templates.
-4. Supply your own licensed product images in the private Storage bucket `plant-loft-images`, using the catalogue paths.
+4. Upload the supplied example images to the private Storage bucket `plant-loft-images`, using their basenames; confirm rights before wider use.
 5. Set separate server-only agent/owner keys, Supabase service credentials and Paystack **test** credentials. Never commit them.
 6. Deploy the `plant-loft` Edge Function, import `openapi.json` into Chord and configure each tool’s private authentication header.
 7. Publish the three files in `skills/` and assign them to the teammate.
@@ -60,6 +60,6 @@ Catalogue prices and sample shop policies are fictional. Replace pickup details,
 
 This is a working prototype using synthetic data and test payments. Stock checks are snapshots, not concurrent reservations. Payment verification runs on request; webhooks and automatic customer notifications are not implemented. Photos open as links. Live WhatsApp deployment, production customer identity, automatic refunds and operational alerting remain future work.
 
-The repository includes the skills, tool contracts, backend, migrations, synthetic catalogue fixtures, Sheet script and tests. It excludes credentials, deployment identifiers, private order histories and product photos. Bring your own configuration and licensed assets.
+The repository includes the skills, tool contracts, backend, migrations, synthetic catalogue fixtures, Sheet script and tests. It excludes credentials, deployment identifiers, private order histories and private operational data. Bring your own configuration; review image rights before wider use.
 
 Built by [Onu Abah](https://onubrooks.github.io) · Financial data engineering, backend systems and applied AI.
