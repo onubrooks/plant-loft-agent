@@ -15,3 +15,7 @@ Run: node --test supabase/functions/plant-loft/workflow.test.mjs integrations/go
 ## Limits
 
 Synthetic stock is not a concurrent reservation system. Channel identity is a prototype workaround. Automatic customer messaging, live WhatsApp deployment, refunds, payment webhooks and real operations are not configured. Public code is not a claim of production readiness.
+
+## Policy source of truth
+
+`skills/customer-service.md` is the authoritative policy text read by the teammate. `knowledge/shop-policies.md` is a reference copy of its fictional sample terms. Edit the skill first, update that reference in the same change, and republish the skill before testing. The samples require owner approval or replacement before launch.
