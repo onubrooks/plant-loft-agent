@@ -1,0 +1,305 @@
+{
+  "version": "care-v1-2026-10-25",
+  "reviewed_at": "2026-10-25",
+  "owner_approved": false,
+  "profiles": [
+    {
+      "profile_id": "plant-01",
+      "name": "Snake Plant",
+      "botanical_context": "Dracaena trifasciata (syn. Sansevieria trifasciata)",
+      "identity_status": "CATALOGUE_LABEL_NOT_VERIFIED",
+      "research_status": "SOURCE_CHECKED_GENERAL_GUIDANCE",
+      "reviewed_at": "2026-10-25",
+      "owner_approved": false,
+      "light": "Bright indirect light; tolerates lower light.",
+      "watering": "Allow the mix to dry before watering; drain completely.",
+      "difficulty": "Lower routine care.",
+      "pet_safety": "Toxic to cats and dogs; prevent chewing.",
+      "sources": [
+        "https://plants.ces.ncsu.edu/plants/dracaena-trifasciata/",
+        "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/snake-plant"
+      ],
+      "recommendation_enabled": true
+    },
+    {
+      "profile_id": "plant-02",
+      "name": "Aglaonema",
+      "botanical_context": "Aglaonema species; cultivar unconfirmed",
+      "identity_status": "CATALOGUE_LABEL_NOT_VERIFIED",
+      "research_status": "SOURCE_CHECKED_GENERAL_GUIDANCE",
+      "reviewed_at": "2026-10-25",
+      "owner_approved": false,
+      "light": "Indirect light; tolerates lower light.",
+      "watering": "Keep lightly moist, never waterlogged; allow surface drying.",
+      "difficulty": "Lower routine care.",
+      "pet_safety": "Potentially harmful if chewed; keep away from pets.",
+      "sources": [
+        "https://plants.ces.ncsu.edu/plants/aglaonema/"
+      ],
+      "recommendation_enabled": false
+    },
+    {
+      "profile_id": "plant-03",
+      "name": "Peace Lily",
+      "botanical_context": "Spathiphyllum species",
+      "identity_status": "CATALOGUE_LABEL_NOT_VERIFIED",
+      "research_status": "SOURCE_CHECKED_GENERAL_GUIDANCE",
+      "reviewed_at": "2026-10-25",
+      "owner_approved": false,
+      "light": "Indirect light; avoid harsh direct sun.",
+      "watering": "Keep moderately moist, not saturated; check soil before watering.",
+      "difficulty": "Regular moisture checks.",
+      "pet_safety": "Toxic to cats and dogs; chewing can cause oral irritation, drooling, vomiting or difficulty swallowing.",
+      "sources": [
+        "https://plants.ces.ncsu.edu/plants/spathiphyllum/",
+        "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/peace-lily"
+      ],
+      "recommendation_enabled": true
+    },
+    {
+      "profile_id": "plant-04",
+      "name": "Schefflera",
+      "botanical_context": "Heptapleurum species (formerly Schefflera); exact species unconfirmed",
+      "identity_status": "CATALOGUE_LABEL_NOT_VERIFIED",
+      "research_status": "SOURCE_CHECKED_GENERAL_GUIDANCE",
+      "reviewed_at": "2026-10-25",
+      "owner_approved": false,
+      "light": "Bright filtered light.",
+      "watering": "Let the mix dry before watering thoroughly; drain well.",
+      "difficulty": "Moderate routine care.",
+      "pet_safety": "Harmful to cats and dogs if chewed.",
+      "sources": [
+        "https://plants.ces.ncsu.edu/plants/heptapleurum-arboricola/"
+      ],
+      "recommendation_enabled": true
+    },
+    {
+      "profile_id": "plant-05",
+      "name": "Golden Palm",
+      "botanical_context": "Provisionally Dypsis lutescens / Chrysalidocarpus lutescens; confirm owner stock",
+      "identity_status": "CATALOGUE_LABEL_NOT_VERIFIED",
+      "research_status": "SOURCE_CHECKED_GENERAL_GUIDANCE",
+      "reviewed_at": "2026-10-25",
+      "owner_approved": false,
+      "light": "Bright filtered light.",
+      "watering": "Let the surface dry slightly; water and drain well.",
+      "difficulty": "Regular moisture checks.",
+      "pet_safety": "Named areca palm is listed non-toxic to cats/dogs; confirm identity.",
+      "sources": [
+        "https://www.rhs.org.uk/plants/types/trees/indoor-palms",
+        "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/areca-palm"
+      ],
+      "recommendation_enabled": true
+    },
+    {
+      "profile_id": "plant-06",
+      "name": "Lady Palm",
+      "botanical_context": "Provisionally Rhapis excelsa; confirm owner stock",
+      "identity_status": "CATALOGUE_LABEL_NOT_VERIFIED",
+      "research_status": "SOURCE_CHECKED_GENERAL_GUIDANCE",
+      "reviewed_at": "2026-10-25",
+      "owner_approved": false,
+      "light": "Indirect light; tolerates shade.",
+      "watering": "Water regularly with good drainage; avoid saturated roots.",
+      "difficulty": "Lower routine care.",
+      "pet_safety": "Named lady palm is listed non-toxic to cats/dogs; confirm identity.",
+      "sources": [
+        "https://plants.ces.ncsu.edu/plants/rhapis-excelsa/",
+        "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/lady-palm"
+      ],
+      "recommendation_enabled": true
+    },
+    {
+      "profile_id": "plant-07",
+      "name": "Golden Pothos",
+      "botanical_context": "Epipremnum aureum",
+      "identity_status": "CATALOGUE_LABEL_NOT_VERIFIED",
+      "research_status": "SOURCE_CHECKED_GENERAL_GUIDANCE",
+      "reviewed_at": "2026-10-25",
+      "owner_approved": false,
+      "light": "Bright indirect light; tolerates lower light.",
+      "watering": "Let the mix dry between waterings; drain well.",
+      "difficulty": "Lower routine care.",
+      "pet_safety": "Harmful if chewed; keep away from pets.",
+      "sources": [
+        "https://plants.ces.ncsu.edu/plants/epipremnum-aureum/"
+      ],
+      "recommendation_enabled": true
+    },
+    {
+      "profile_id": "plant-08",
+      "name": "Spider Plant",
+      "botanical_context": "Chlorophytum comosum",
+      "identity_status": "CATALOGUE_LABEL_NOT_VERIFIED",
+      "research_status": "SOURCE_CHECKED_GENERAL_GUIDANCE",
+      "reviewed_at": "2026-10-25",
+      "owner_approved": false,
+      "light": "Indirect light; avoid strong direct sun.",
+      "watering": "Keep moderately moist with drainage; avoid excessive feeding.",
+      "difficulty": "Lower routine care.",
+      "pet_safety": "Listed non-toxic to cats/dogs; still discourage chewing.",
+      "sources": [
+        "https://plants.ces.ncsu.edu/plants/chlorophytum-comosum/",
+        "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/spider-plant"
+      ],
+      "recommendation_enabled": true
+    },
+    {
+      "profile_id": "plant-09",
+      "name": "Green Syngonium",
+      "botanical_context": "Provisionally Syngonium podophyllum; cultivar unconfirmed",
+      "identity_status": "CATALOGUE_LABEL_NOT_VERIFIED",
+      "research_status": "SOURCE_CHECKED_GENERAL_GUIDANCE",
+      "reviewed_at": "2026-10-25",
+      "owner_approved": false,
+      "light": "Bright indirect light.",
+      "watering": "Keep moist but well drained; avoid soggy roots.",
+      "difficulty": "Regular moisture checks.",
+      "pet_safety": "Harmful if eaten; sap can irritate.",
+      "sources": [
+        "https://www.rhs.org.uk/plants/17899/syngonium-podophyllum/details"
+      ],
+      "recommendation_enabled": true
+    },
+    {
+      "profile_id": "plant-10",
+      "name": "Monstera",
+      "botanical_context": "Monstera species; care baseline uses M. deliciosa, not confirmed identity",
+      "identity_status": "CATALOGUE_LABEL_NOT_VERIFIED",
+      "research_status": "SOURCE_CHECKED_GENERAL_GUIDANCE",
+      "reviewed_at": "2026-10-25",
+      "owner_approved": false,
+      "light": "Bright indirect light.",
+      "watering": "Keep well drained and moderately moist; avoid waterlogging.",
+      "difficulty": "Allow growing space and climbing support.",
+      "pet_safety": "Harmful if chewed; keep away from pets.",
+      "sources": [
+        "https://plants.ces.ncsu.edu/plants/monstera-deliciosa/"
+      ],
+      "recommendation_enabled": true
+    },
+    {
+      "profile_id": "plant-11",
+      "name": "Philodendron",
+      "botanical_context": "Philodendron species; exact species and growth habit unconfirmed",
+      "identity_status": "CATALOGUE_LABEL_NOT_VERIFIED",
+      "research_status": "SOURCE_CHECKED_GENERAL_GUIDANCE",
+      "reviewed_at": "2026-10-25",
+      "owner_approved": false,
+      "light": "Bright indirect light; avoid scorching sun.",
+      "watering": "Keep well drained and moderately moist; avoid overwatering.",
+      "difficulty": "Ask whether climbing or self-heading.",
+      "pet_safety": "Potentially harmful if chewed; keep away from pets.",
+      "sources": [
+        "https://plants.ces.ncsu.edu/plants/philodendron/"
+      ],
+      "recommendation_enabled": true
+    },
+    {
+      "profile_id": "plant-12",
+      "name": "Pink Syngonium",
+      "botanical_context": "Provisionally Syngonium podophyllum; identity/photo still held for owner review",
+      "identity_status": "CATALOGUE_LABEL_NOT_VERIFIED",
+      "research_status": "SOURCE_CHECKED_GENERAL_GUIDANCE",
+      "reviewed_at": "2026-10-25",
+      "owner_approved": false,
+      "light": "Bright filtered light for variegated foliage.",
+      "watering": "Keep moist but well drained; avoid soggy roots.",
+      "difficulty": "Regular moisture checks.",
+      "pet_safety": "Harmful if eaten; sap can irritate.",
+      "sources": [
+        "https://www.rhs.org.uk/plants/17899/syngonium-podophyllum/details"
+      ],
+      "recommendation_enabled": false
+    },
+    {
+      "profile_id": "plant-13",
+      "name": "Chinese Evergreen",
+      "botanical_context": "Aglaonema species; overlaps the Aglaonema common-name group",
+      "identity_status": "CATALOGUE_LABEL_NOT_VERIFIED",
+      "research_status": "SOURCE_CHECKED_GENERAL_GUIDANCE",
+      "reviewed_at": "2026-10-25",
+      "owner_approved": false,
+      "light": "Indirect light; tolerates lower light.",
+      "watering": "Keep lightly moist, never waterlogged; allow surface drying.",
+      "difficulty": "Lower routine care.",
+      "pet_safety": "Potentially harmful if chewed; keep away from pets.",
+      "sources": [
+        "https://plants.ces.ncsu.edu/plants/aglaonema/"
+      ],
+      "recommendation_enabled": true
+    },
+    {
+      "profile_id": "plant-14",
+      "name": "Calathea",
+      "botanical_context": "Calathea trade group; may be Goeppertia, Ctenanthe or Stromanthe",
+      "identity_status": "CATALOGUE_LABEL_NOT_VERIFIED",
+      "research_status": "SOURCE_CHECKED_GENERAL_GUIDANCE",
+      "reviewed_at": "2026-10-25",
+      "owner_approved": false,
+      "light": "Bright indirect light.",
+      "watering": "Keep evenly moist with drainage; never saturated or fully dry.",
+      "difficulty": "Needs warm, humid conditions.",
+      "pet_safety": "Named Calathea is listed non-toxic to cats/dogs; confirm exact plant.",
+      "sources": [
+        "https://www.rhs.org.uk/plants/calathea/growing-guide",
+        "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/calathea"
+      ],
+      "recommendation_enabled": true
+    },
+    {
+      "profile_id": "plant-15",
+      "name": "N'Joy Pothos",
+      "botanical_context": "Epipremnum 'Njoy' / 'Hansoti12'; cultivar label requires confirmation",
+      "identity_status": "CATALOGUE_LABEL_NOT_VERIFIED",
+      "research_status": "SOURCE_CHECKED_GENERAL_GUIDANCE",
+      "reviewed_at": "2026-10-25",
+      "owner_approved": false,
+      "light": "Bright filtered light; shade may reduce variegation.",
+      "watering": "Keep well drained; allow drying between waterings.",
+      "difficulty": "Lower routine care.",
+      "pet_safety": "Harmful if chewed; keep away from pets.",
+      "sources": [
+        "https://www.rhs.org.uk/plants/361702/epipremnum-njoy-hansoti12-v/details",
+        "https://plants.ces.ncsu.edu/plants/epipremnum-aureum/"
+      ],
+      "recommendation_enabled": true
+    },
+    {
+      "profile_id": "plant-16",
+      "name": "Boston Fern",
+      "botanical_context": "Provisionally Nephrolepis exaltata; confirm Boston-fern identity",
+      "identity_status": "CATALOGUE_LABEL_NOT_VERIFIED",
+      "research_status": "SOURCE_CHECKED_GENERAL_GUIDANCE",
+      "reviewed_at": "2026-10-25",
+      "owner_approved": false,
+      "light": "Bright indirect light.",
+      "watering": "Keep the mix moist with drainage; do not let it dry completely.",
+      "difficulty": "Needs humid air; check moisture regularly.",
+      "pet_safety": "Named Boston fern is listed non-toxic to cats/dogs.",
+      "sources": [
+        "https://plants.ces.ncsu.edu/plants/nephrolepis-exaltata/",
+        "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/boston-fern"
+      ],
+      "recommendation_enabled": true
+    },
+    {
+      "profile_id": "plant-17",
+      "name": "Aloe Vera",
+      "botanical_context": "Aloe vera (syn. Aloe barbadensis)",
+      "identity_status": "CATALOGUE_LABEL_NOT_VERIFIED",
+      "research_status": "SOURCE_CHECKED_GENERAL_GUIDANCE",
+      "reviewed_at": "2026-10-25",
+      "owner_approved": false,
+      "light": "Bright light; suitable sun exposure after gradual adjustment.",
+      "watering": "Let the mix dry completely; use freely draining succulent mix.",
+      "difficulty": "Lower routine care; avoid overwatering.",
+      "pet_safety": "Toxic to cats and dogs; not edible advice.",
+      "sources": [
+        "https://plants.ces.ncsu.edu/plants/aloe-vera/",
+        "https://www.aspca.org/pet-care/aspca-poison-control/toxic-and-non-toxic-plants/aloe"
+      ],
+      "recommendation_enabled": true
+    }
+  ]
+}

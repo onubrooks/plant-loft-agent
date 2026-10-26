@@ -1,0 +1,53 @@
+begin;
+do $$
+declare q jsonb; r jsonb; a jsonb; rejected boolean; code text; rid uuid; rental jsonb;
+begin
+ rejected:=false;
+ begin perform plant_loft_tool('prepare_quote','{"session_id":"lifecycle-no-qty","kind":"SALE","transport":"SELF_PICKUP","items":[{"product_id":"plant-09","pot_id":"pot-19"}],"transport_confirmed":true}');exception when raise_exception then rejected:=true;end;
+ assert rejected,'Missing quantity rejected';
+ q:=plant_loft_tool('prepare_quote','{"session_id":"lifecycle-sale-001","kind":"SALE","transport":"BUSINESS_DELIVERY","items":[{"product_id":"plant-09","pot_id":"pot-19","quantity":1}],"transport_confirmed":true}');
+ code:=q->>'quote_code';r:=plant_loft_tool('confirm_request',jsonb_build_object('quote_code',code,'confirmed',true));rid:=(r->>'id')::uuid;
+ rejected:=false;begin perform plant_loft_tool('get_request',jsonb_build_object('quote_code',code,'customer_action','received','confirmed',true));exception when raise_exception then rejected:=true;end;
+ assert rejected,'Unpaid receipt cannot fulfil order';
+ rejected:=false;begin perform plant_loft_lifecycle(rid,'confirm_transfer',jsonb_build_object('funds_received',true),'CUSTOMER');exception when raise_exception then rejected:=true;end;
+ assert rejected,'Customer cannot confirm bank funds';
+ a:=plant_loft_owner('transport',jsonb_build_object('request_id',rid,'fee_kobo',250000,'owner_reference','lifecycle-delivery','expected_version',0));
+ r:=plant_loft_tool('confirm_request',jsonb_build_object('quote_code',code,'confirmed',true,'transport_version',1,'confirmed_total_kobo',1800000));
+ -- A payment claim/status read cannot mark paid.
+ r:=plant_loft_tool('get_request',jsonb_build_object('quote_code',code,'check_payment',true));assert r->'summary'->>'payment_status'='UNPAID','Payment claim stays unpaid';
+ rejected:=false;begin perform plant_loft_owner('confirm_transfer',jsonb_build_object('request_id',rid,'amount_kobo',1700000,'bank_reference','lifecycle-bank-001','expected_version',1,'confirmed_by','Rahama test','funds_received',true));exception when raise_exception then rejected:=true;end;
+ assert rejected,'Partial payment rejected';
+ rejected:=false;begin perform plant_loft_owner('confirm_transfer',jsonb_build_object('request_id',rid,'amount_kobo',1800000,'bank_reference','lifecycle-bank-001','expected_version',0,'confirmed_by','Rahama test','funds_received',true));exception when raise_exception then rejected:=true;end;
+ assert rejected,'Stale version rejected';
+ a:=jsonb_build_object('request_id',rid,'amount_kobo',1800000,'bank_reference','lifecycle-bank-001','expected_version',1,'confirmed_by','Rahama test','funds_received',true);
+ perform plant_loft_owner('confirm_transfer',a);perform plant_loft_owner('confirm_transfer',a);
+ assert (select count(*) from plant_loft_receipts where request_id=rid)=1,'Transfer retries produce one receipt';
+ r:=plant_loft_tool('get_request',jsonb_build_object('quote_code',code));assert r->'summary'->>'payment_status'='OWNER_CONFIRMED_TRANSFER_TEST','Customer reads owner confirmation';
+ rejected:=false;begin perform plant_loft_tool('get_request',jsonb_build_object('quote_code',code,'customer_action','review','overall_feedback','too early'));exception when raise_exception then rejected:=true;end;assert rejected,'Early review rejected';
+ perform plant_loft_owner('delivered',jsonb_build_object('request_id',rid,'confirmed',true));
+ r:=plant_loft_tool('get_request',jsonb_build_object('quote_code',code,'customer_action','received','confirmed',true));assert r->>'status'='COMPLETED','Customer receipt completes sale';
+ perform plant_loft_owner('delivered',jsonb_build_object('request_id',rid,'confirmed',true));
+ r:=plant_loft_tool('get_request',jsonb_build_object('quote_code',code));assert r->>'status'='COMPLETED','Late owner confirmation does not regress completion';
+ a:=jsonb_build_object('quote_code',code,'customer_action','review','product_rating',4,'service_rating',5,'product_feedback','Healthy plant','service_feedback','Helpful assistant');
+ perform plant_loft_tool('get_request',a);r:=plant_loft_tool('get_request',a);assert r->>'review_saved'='true','Review persisted';
+ assert (select count(*) from plant_loft_reviews where request_id=rid)=1,'Repeated review creates no duplicate';
+ rejected:=false;begin perform plant_loft_tool('get_request',a||'{"product_rating":6}');exception when raise_exception then rejected:=true;end;assert rejected,'Invalid rating rejected';
+ rejected:=false;begin perform plant_loft_tool('get_request',a||'{"product_rating":2}');exception when raise_exception then rejected:=true;end;assert rejected,'Review replacement needs consent';
+ rejected:=false;begin perform plant_loft_tool('get_request','{"quote_code":"PL-unknown-private-code","customer_action":"received","confirmed":true}');exception when raise_exception then rejected:=true;end;
+ -- Existing lookup may safely return found:false; neither outcome may mutate a request.
+ assert (select count(*) from plant_loft_lifecycle_audit where request_id=rid and action='received')=1,'Private lookup and repeated receipt do not duplicate writes';
+ q:=plant_loft_tool('prepare_quote','{"session_id":"lifecycle-rental-001","kind":"RENTAL","transport":"BUSINESS_DELIVERY","start_at":"2026-11-01T15:00:00+01:00","end_at":"2026-11-01T20:00:00+01:00","setup":false,"items":[{"category":"GOLDEN_PALM","quantity":10}],"transport_confirmed":true,"event_logistics":{"venue_access_at":"2026-11-01T13:00:00+01:00","setup_ready_at":"2026-11-01T14:30:00+01:00","onsite_contact":"Demo contact 08000000000"}}');
+ code:=q->>'quote_code';r:=plant_loft_tool('confirm_request',jsonb_build_object('quote_code',code,'confirmed',true));rid:=(r->>'id')::uuid;
+ perform plant_loft_owner('transport',jsonb_build_object('request_id',rid,'fee_kobo',100000,'owner_reference','lifecycle-rental-delivery','expected_version',0));
+ perform plant_loft_tool('confirm_request',jsonb_build_object('quote_code',code,'confirmed',true,'transport_version',1,'confirmed_total_kobo',3600000));
+ perform plant_loft_owner('confirm_transfer',jsonb_build_object('request_id',rid,'amount_kobo',3600000,'bank_reference','lifecycle-bank-rental','expected_version',1,'confirmed_by','Rahama test','funds_received',true));
+ r:=plant_loft_tool('get_request',jsonb_build_object('quote_code',code,'customer_action','received','confirmed',true));assert r->>'status'='RENTAL_IN_USE','Receiving rental does not complete it';
+ r:=plant_loft_owner('returned',jsonb_build_object('request_id',rid,'confirmed',true));assert r->>'status'='COMPLETED','Owner collection completes rental';
+ q:=plant_loft_tool('prepare_quote','{"session_id":"lifecycle-pickup-001","kind":"SALE","transport":"SELF_PICKUP","items":[{"product_id":"plant-09","pot_id":"pot-19","quantity":1}],"transport_confirmed":true}');
+ code:=q->>'quote_code';r:=plant_loft_tool('confirm_request',jsonb_build_object('quote_code',code,'confirmed',true));
+ a:=plant_loft_prepare_payments((r->>'id')::uuid);assert jsonb_array_length(a)=2,'Demo pickup stock check is automatic';
+ perform plant_loft_owner('approve_stock',jsonb_build_object('request_id',r->>'id','confirmed',true));
+ a:=plant_loft_prepare_payments((r->>'id')::uuid);assert jsonb_array_length(a)=2,'Approved pickup can prepare payment';
+end $$;
+select 'PASS: quantity, payment claims, partial/stale/owner transfer, receipt replay, fulfilment, review validation/replay, rental return and pickup stock gates' result;
+rollback;

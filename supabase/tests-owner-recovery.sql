@@ -1,0 +1,33 @@
+begin;
+do $$
+declare q jsonb; r jsonb; replay jsonb; quoted jsonb; bad boolean; snap jsonb;
+begin
+ q:=plant_loft_tool('prepare_quote','{"session_id":"test-recovery-002","kind":"RENTAL","transport":"BUSINESS_DELIVERY","start_at":"2026-11-10T10:00:00+01:00","end_at":"2026-11-12T10:00:00+01:00","setup":true,"items":[{"category":"GOLDEN_PALM","quantity":6},{"category":"LADY_PALM","quantity":4},{"category":"SMALL_PLANT","quantity":2}],"transport_confirmed":true,"event_logistics":{"venue_access_at":"2026-11-10T08:00:00+01:00","setup_ready_at":"2026-11-10T09:30:00+01:00","onsite_contact":"Demo contact 08000000000"}}');
+ assert q->>'quote_code' like 'PL-%','Private tracking code returned';
+ r:=plant_loft_tool('confirm_request',jsonb_build_object('quote_code',q->>'quote_code','confirmed',true));
+ replay:=plant_loft_tool('get_request',jsonb_build_object('quote_code',q->>'quote_code'));
+ assert replay->>'id'=r->>'id','Recovery without model session/quote IDs';
+ replay:=plant_loft_tool('get_request','{"quote_code":"PL-not-a-real-code"}');
+ assert replay->>'found'='false','Invalid capability cannot retrieve';
+ quoted:=plant_loft_owner('transport',jsonb_build_object('request_id',r->>'id','fee_kobo',1500000,'owner_reference','TEST-ROUND-TRIP','expected_version',0));
+ assert (quoted#>>'{summary,final_total_kobo}')::bigint=11300000,'98000 plus 15000';
+ assert quoted->>'status'='AWAITING_CUSTOMER_CONFIRMATION','Revised total needs acceptance';
+ replay:=plant_loft_owner('transport',jsonb_build_object('request_id',r->>'id','fee_kobo',1500000,'owner_reference','TEST-ROUND-TRIP','expected_version',0));
+ assert (replay#>>'{summary,transport_version}')::integer=1,'Same owner operation is idempotent';
+ bad:=false;begin perform plant_loft_owner('transport',jsonb_build_object('request_id',r->>'id','fee_kobo',1600000,'owner_reference','TEST-CHANGED','expected_version',0));exception when raise_exception then bad:=true;end;
+ assert bad,'Stale owner update rejected';
+ replay:=plant_loft_tool('confirm_request',jsonb_build_object('quote_code',q->>'quote_code','confirmed',true));
+ assert replay->>'confirmation_required'='true','Bare yes cannot accept changed total';
+ bad:=false;begin perform plant_loft_tool('confirm_request',jsonb_build_object('quote_code',q->>'quote_code','confirmed',true,'transport_version',1,'confirmed_total_kobo',11200000));exception when raise_exception then bad:=true;end;
+ assert bad,'Wrong amount cannot accept';
+ replay:=plant_loft_tool('confirm_request',jsonb_build_object('quote_code',q->>'quote_code','confirmed',true,'transport_version',1,'confirmed_total_kobo',11300000));
+ assert replay#>>'{summary,transport_accepted}'='true','Exact total accepted';
+ assert replay->>'status'='AWAITING_PAYMENT','Approved rental is ready for payment after total acceptance';
+ assert (select count(*) from plant_loft_requests where id=(r->>'id')::uuid)=1,'Still one request';
+ snap:=plant_loft_owner('snapshot','{}');
+ assert not (snap::text like '%'||(q->>'quote_code')||'%'),'Public-facing snapshot omits tracking capability';
+ assert not has_function_privilege('anon','public.plant_loft_owner(text,jsonb)','EXECUTE'),'Owner RPC not public';
+ assert not has_function_privilege('authenticated','public.plant_loft_owner(text,jsonb)','EXECUTE'),'Normal auth cannot call owner RPC';
+end $$;
+select 'PASS: private-code recovery, owner-only fee, totals, audit, idempotency, stale update and exact customer acceptance' as result;
+rollback;
